@@ -78,7 +78,10 @@ export function isURL(input: any): input is `${(typeof SUPPORTED_PROTOCOL)[numbe
  * @param {ClientOptions} options options
  */
 export function checkIntents(options: ClientOptions): void {
-  const intents = new IntentsBitField(options.intents);
+  const intents = ('bitfield' in options.intents)
+    ? options.intents
+    : new import_discord3.IntentsBitField(options.intents);
+
   if (!intents.has(GatewayIntentBits.GuildVoiceStates)) throw new DisTubeError("MISSING_INTENTS", "GuildVoiceStates");
 }
 
